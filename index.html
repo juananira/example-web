@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak Sifat Berdasarkan Nama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #2D336B, #A9B5DF);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #2D336B;
+            font-size: 2em;
+        }
+
+        input {
+            padding: 12px;
+            margin-bottom: 20px;
+            width: 80%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.2em;
+        }
+
+        input:focus {
+            border-color: #2D336B;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #2D336B;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #A9B5DF;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2D336B;
+            color: #fff;
+        }
+
+        .hapusBtn {
+            background-color: #ff3333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .hapusBtn:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tebak Sifat Berdasarkan Nama</h1>
+        <input type="text" id="namaInput" placeholder="Masukkan nama..." />
+        <button onclick="tebakSifat()">Tebak Sifat</button>
+        <table id="tabelHasil">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Sifat</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function tebakSifat() {
+            const nama = document.getElementById("namaInput").value.trim().toLowerCase();
+            if (!nama) {
+                alert("Masukkan nama terlebih dahulu!");
+                return;
+            }
+            const tabelBody = document.getElementById("tabelHasil").getElementsByTagName("tbody")[0];
+            const panjangNama = nama.length;
+            let hurufTengah = panjangNama % 2 === 1 ? nama.charAt(Math.floor(panjangNama / 2)) : nama.charAt(Math.floor(panjangNama / 2) - 1);
+            
+            const sifatList = {
+                "a": "Kamu sangat kreatif dan penuh ide brilian.",
+                "b": "Kamu sangat analitis dan suka berpikir mendalam.",
+                "c": "Kamu adalah orang yang penuh semangat dan energik.",
+                "d": "Kamu sangat penyabar dan bijaksana."
+            };
+            
+            const sifat = sifatList[hurufTengah] || "Nama ini sangat unik, sifat kamu juga luar biasa!";
+            const row = tabelBody.insertRow();
+            const cellNama = row.insertCell(0);
+            const cellSifat = row.insertCell(1);
+            const cellHapus = row.insertCell(2);
+            
+            cellNama.textContent = nama.charAt(0).toUpperCase() + nama.slice(1);
+            cellSifat.textContent = sifat;
+            
+            const hapusButton = document.createElement("button");
+            hapusButton.classList.add("hapusBtn");
+            hapusButton.textContent = "Hapus";
+            hapusButton.onclick = function () {
+                tabelBody.deleteRow(row.rowIndex - 1);
+            };
+            
+            cellHapus.appendChild(hapusButton);
+        }
+    </script>
+</body>
+</html>
